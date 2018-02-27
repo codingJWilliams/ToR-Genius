@@ -183,6 +183,13 @@ class Fun:
             if 'boing' not in message.content.lower():
                 await message.delete()
 
+    @staticmethod
+    async def on_message_edit(_, message):
+        if message.channel.id == 417369794883354625:
+            # noinspection SpellCheckingInspection
+            if 'boing' not in message.content.lower():
+                await message.delete()
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
