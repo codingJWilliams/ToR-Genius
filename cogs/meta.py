@@ -82,7 +82,7 @@ class Meta:
             ctx.send(e)
 
     @commands.group(name='prefix', invoke_without_command=True)
-    async def prefix(self, ctx, search: str.lower = ''):
+    async def prefix(self, ctx, *, search: str.lower = ''):
         """Customize the prefixes
 
         Calling without a subcommand lists prefixes
