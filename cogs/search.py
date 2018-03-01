@@ -88,7 +88,7 @@ class Search:
         """Do a quick wolframalpha query, with a short response"""
 
         # noinspection SpellCheckingInspection
-        if query is 'mafs' or query is 'maths':
+        if query == 'mafs' or query == 'maths':
             return await ctx.send('2+2 = 4-1 = 3')
 
         await ctx.channel.trigger_typing()
