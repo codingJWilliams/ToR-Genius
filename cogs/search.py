@@ -86,6 +86,11 @@ class Search:
     @commands.command()
     async def quick(self, ctx, *, query):
         """Do a quick wolframalpha query, with a short response"""
+
+        # noinspection SpellCheckingInspection
+        if query is 'mafs' or query is 'maths':
+            return await ctx.send('2+2 = 4-1 = 3')
+
         await ctx.channel.trigger_typing()
         with aiohttp.ClientSession() as s:
             async with s.get(
