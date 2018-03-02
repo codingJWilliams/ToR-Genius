@@ -17,7 +17,6 @@ class RedditConfig(db.Table, table_name='reddit_config'):
 
 
 class RedditMember:
-
     @classmethod
     async def create(cls, ctx, member):
         self = RedditMember()
@@ -121,7 +120,7 @@ class Reddit:
 
     @commands.group(invoke_without_command=True)
     @tor_only()
-    async def link(self, ctx, *, username: str):
+    async def link(self, ctx, *, username: commands.clean_content):
         """Link a reddit account with your discord account.
 
         This will replace any existing reddit accounts you have linked. """
@@ -188,7 +187,7 @@ ON CONFLICT (user_id)
     @is_mod()
     @tor_only()
     async def force(
-            self, ctx, reddit_username: str,
+            self, ctx, reddit_username: commands.clean_content,
             *, discord_username: commands.MemberConverter = None
     ):
         """Mod command for setting someones Reddit account."""
@@ -280,7 +279,8 @@ FROM reddit_config;
         await p.paginate()
 
     @commands.command()
-    async def flair_count(self, ctx, *, flair: str = "Unclaimed"):
+    async def flair_count(self, ctx, *,
+                          flair: commands.clean_content = "Unclaimed"):
         """Get the number of posts left on r/ToR with a certain flair.
 
         It's by default 'Unclaimed'."""

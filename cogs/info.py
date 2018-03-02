@@ -224,7 +224,7 @@ class Info:
             await ctx.show_help('language')
 
     @language.command(name='set')
-    async def lang_set(self, ctx, *, lang):
+    async def lang_set(self, ctx, *, lang: commands.clean_content):
         """Set your language description to something."""
         query = """
 INSERT INTO lang (user_id, lang_desc) VALUES ($1, $2)

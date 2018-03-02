@@ -28,7 +28,7 @@ class Search:
 
     @commands.command()
     @commands.cooldown(rate=1, per=20, type=commands.BucketType.user)
-    async def wolfram(self, ctx, *, query: str):
+    async def wolfram(self, ctx, *, query: commands.clean_content):
         """Do a full wolframalpha query, with a very verbose response."""
         await ctx.channel.trigger_typing()
 
@@ -84,7 +84,7 @@ class Search:
             await p.paginate()
 
     @commands.command()
-    async def quick(self, ctx, *, query):
+    async def quick(self, ctx, *, query: commands.clean_content):
         """Do a quick wolframalpha query, with a short response"""
 
         # noinspection SpellCheckingInspection
