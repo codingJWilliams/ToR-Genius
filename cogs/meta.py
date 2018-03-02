@@ -237,10 +237,13 @@ class Meta:
         """What do you think"""
 
         before = time.monotonic()
-        m = await ctx.send(
-            f'Pong! {round(self.bot.latency*1000, 2):,}ms of Discord WebSocket '
-            f'latency! 🏓'
-        )
+
+        message = f'{"Pong" if ctx.invoked_with == "ping" else "Ping"}! ' \
+                  f'{round(self.bot.latency*1000, 2):,}ms of Discord ' \
+                  f'WebSocket latency! 🏓'
+
+        m = await ctx.send(message)
+
         after = time.monotonic()
 
         await m.edit(content=f'{m.content.strip("! 🏓")}, '
