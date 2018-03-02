@@ -7,16 +7,10 @@ import random
 from discord.ext import commands
 
 from cogs.admin import gist_upload
-from cogs.utils import db
 from cogs.utils.checks import tor_only
 from cogs.utils.encode_operations import EncodeOperations
 
 log = logging.getLogger(__name__)
-
-
-class CounterDB(db.Table, table_name='counters'):
-    name = db.Column(db.String, primary_key=True)
-    count = db.Column(db.Integer(big=True))
 
 
 class Fun:
