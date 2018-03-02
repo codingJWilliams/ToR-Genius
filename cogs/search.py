@@ -17,6 +17,11 @@ def code_block(string, lang=''):
     return f'```{lang}\n{string}\n```'
 
 
+# easier for cleaning content
+async def send(ctx, *args, **kwargs):
+    await ctx.send(commands.clean_content.convert(ctx, *args, **kwargs))
+
+
 class Search:
     def __init__(self, bot):
         self.bot = bot
@@ -24,7 +29,7 @@ class Search:
     @staticmethod
     async def __error(ctx, err):
         if isinstance(err, commands.CommandOnCooldown):
-            await ctx.send(err)
+            await send(ctx, err)
 
     @commands.command()
     @commands.cooldown(rate=1, per=20, type=commands.BucketType.user)
@@ -49,7 +54,7 @@ class Search:
                         # sub_data.append(sub['img']['@alt'])
                 data.append(sub_data)
         except AttributeError:
-            return await ctx.send('No results found.')
+            return await send(ctx, 'No results found.')
 
         embed_images = [
             discord.Embed().set_image(url=image) for image in images
@@ -65,20 +70,20 @@ class Search:
             ))
             if to_send != '':
                 try:
-                    await ctx.send(to_send)
+                    await send(ctx,  to_send)
                 except discord.HTTPException:
                     key = await haste_upload(to_send + '\n' + '\n'.join(images))
-                    await ctx.send(f'https://hastebin.com/{key}')
+                    await send(ctx, f'https://hastebin.com/{key}')
             if embed_images:
                 p = EmbedPages(ctx, embeds=embed_images)
                 await p.paginate()
             return
 
         try:
-            await ctx.send(code_block(t.draw()))
+            await send(ctx, code_block(t.draw()))
         except discord.HTTPException:
             key = await haste_upload(code_block(t.draw()))
-            await ctx.send(f'https://hastebin.com/{key}')
+            await send(ctx, f'https://hastebin.com/{key}')
         if embed_images:
             p = EmbedPages(ctx, embeds=embed_images)
             await p.paginate()
@@ -89,7 +94,7 @@ class Search:
 
         # noinspection SpellCheckingInspection
         if query == 'mafs' or query == 'maths':
-            return await ctx.send('2+2 = 4-1 = 3')
+            return await send(ctx, '2+2 = 4-1 = 3')
 
         await ctx.channel.trigger_typing()
         with aiohttp.ClientSession() as s:
@@ -98,7 +103,7 @@ class Search:
                     params={'i': query, 'appid': config.wolfram}
             ) as res:
                 text = await res.text()
-                await ctx.send(text)
+                await send(ctx, text)
 
     # noinspection SpellCheckingInspection
     @commands.command(aliases=['ddg', 'duck', 'google', 'goog'])
