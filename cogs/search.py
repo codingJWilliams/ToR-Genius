@@ -19,7 +19,7 @@ def code_block(string, lang=''):
 
 # easier for cleaning content
 async def send(ctx, *args, **kwargs):
-    res = await commands.clean_content.convert(ctx, *args, **kwargs)
+    res = await commands.clean_content().convert(ctx, *args, **kwargs)
     await ctx.send(res)
 
 
