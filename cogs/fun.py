@@ -1,6 +1,7 @@
 # Copyright (c) 2017 Perry Fraser
 #
 # Licensed under the MIT License. https://opensource.org/licenses/MIT
+import asyncio
 import logging
 import random
 
@@ -169,6 +170,32 @@ class Fun:
             await ctx.send(key)
         else:
             await ctx.send(f'```{message}```')
+
+    @commands.command(aliases=['sync'])
+    async def loading(self, ctx):
+        emoji = [':white_check_mark:', '<:check:314349398811475968>',
+                 '<:xmark:314349398824058880>', '<a:typing:393848431413559296>',
+                 ' <a:loading:393852367751086090>',
+                 ' <a:updating:403035325242540032>',
+                 '<a:cursor:404001393360502805>',
+                 '<:update:264184209617321984>']
+        opts = ['Almost done', 'Loading', 'About to finish',
+                'Just one more second... ', '≈ 3 more seconds',
+                'Will finish in a bit', 'Nearly complete']
+
+        def gen_message():
+            if bool(random.getrandbits(1)):
+                return f'{random.choice(emoji)} {random.choice(opts)}'
+            else:
+                return f'{random.choice(opts)} {random.choice(emoji)}'
+
+        m = await ctx.send(gen_message())
+        await asyncio.sleep(random.uniform(.5, 2.5))
+        for _ in range(1, 7):
+            await m.edit(content=gen_message())
+            await asyncio.sleep(random.uniform(.5, 2.5))
+
+        await m.edit(content='Done for real!')
 
     @staticmethod
     async def on_message(message):
