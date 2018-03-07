@@ -181,6 +181,9 @@ class Search:
                         )
                     )
 
+                if not final_embeds:
+                    return await ctx.send('No results found.')
+
                 p = EmbedPages(ctx, embeds=final_embeds)
                 await p.paginate()
 
