@@ -89,6 +89,7 @@ class Search:
             p = EmbedPages(ctx, embeds=embed_images)
             await p.paginate()
 
+    # noinspection PyTypeChecker
     @commands.command()
     async def quick(self, ctx, *, query: commands.clean_content):
         """Do a quick wolframalpha query, with a short response"""
@@ -105,16 +106,11 @@ class Search:
             ) as res:
                 text = await res.text()
                 if text == "No short answer available":
-                    # oof this formatting is 0/10
-                    # noinspection PyUnresolvedReferences,PyTypeChecker
-                    to_send = (
-                        f"{text}. Hint: try doing "
-                        f"`{ctx.prefix} wolfram " +
-                        (query[:35] + '…') if len(query) > 35 else query
-                    )
-
-                    # This is here because IntellijJ can't format things right
+                    to_send = ""
+                    to_send += f"{text}. Hint: try doing `{ctx.prefix} wolfram "
+                    to_send += (query[:35] + '…') if len(query) > 35 else query
                     to_send += "` in a bot commands channel."
+
                 elif text == "Wolfram|Alpha did not understand your input":
                     to_send = "Sorry, I don't understand what you said."
                 else:
