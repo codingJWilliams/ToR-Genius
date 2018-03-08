@@ -101,7 +101,7 @@ class Info:
     async def created(self, ctx, member: commands.MemberConverter = None):
         """Find out concisely when a user joined Discord."""
         member = member or ctx.author
-        await ctx.send(f'{member.display_name} joined '
+        await ctx.send(f'{member.display_name} created their account '
                        f'{format_time(member.created_at)}')
 
     @commands.command()
