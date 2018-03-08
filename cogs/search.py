@@ -107,7 +107,7 @@ class Search:
                 text = await res.text()
                 if text == "No short answer available":
                     to_send = ""
-                    to_send += f"{text}. Hint: try doing `{ctx.prefix} wolfram "
+                    to_send += f"{text}. Hint: try doing `{ctx.prefix} wolfram"
                     to_send += (query[:35] + '…') if len(query) > 35 else query
                     to_send += "` in a bot commands channel."
 
