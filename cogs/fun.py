@@ -172,7 +172,11 @@ class Fun:
             await ctx.send(f'```{message}```')
 
     @commands.command(aliases=['sync'])
-    async def loading(self, ctx):
+    async def loading(self, ctx, count: int = 7):
+        if count < 1 or count > 50:
+            return await ctx.send('Please make the number '
+                                  'above one and below 50')
+
         emoji = [':white_check_mark:', '<:check:314349398811475968>',
                  '<:xmark:314349398824058880>', '<a:typing:393848431413559296>',
                  ' <a:loading:393852367751086090>',
@@ -191,7 +195,7 @@ class Fun:
 
         m = await ctx.send(gen_message())
         await asyncio.sleep(random.uniform(.5, 2.5))
-        for _ in range(1, 7):
+        for _ in range(1, count):
             await m.edit(content=gen_message())
             await asyncio.sleep(random.uniform(.5, 2.5))
 
