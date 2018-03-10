@@ -129,16 +129,16 @@ class Fun:
 
         await ctx.send('tor sh rm -rf .')
 
-        
-    @commands.command(aliases=['B'])
-        async def b(self, ctx, *, message):
-            """This is a bad idea."""
-            if 'b' in message:
-                return await ctx.send(message.replace('b', ':b:'))
+    @commands.command()
+    async def b(self, ctx, *, message):
+        """This is a bad idea."""
+        if 'b' in message:
+            return await ctx.send(message.replace('b', ':b:'))
 
-            consonants = set([x for x in message if x not in "aeiou"])
-            await ctx.send(message.replace(random.choice(tuple(consonants)), ':b:'))
+        message = list(message)
 
+        message[random.randint(0, len(message) - 1)] = ':b:'
+        await ctx.send(''.join(message))
 
     # noinspection SpellCheckingInspection
     @commands.command(aliases=['rencode', 'encode'])
