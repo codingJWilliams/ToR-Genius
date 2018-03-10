@@ -131,7 +131,7 @@ class Fun:
 
     # noinspection PyUnresolvedReferences,PyTypeChecker
     @commands.command(aliases=['B'])
-    async def b(self, ctx, *, message):
+    async def b(self, ctx, *, message: commands.clean_content):
         """This is a bad idea."""
         if 'b' in message.lower():
             return await ctx.send(message.replace('b', ':b:').replace('B', ':b:'))
