@@ -57,7 +57,7 @@ class Meta:
                              or self.bot.get_command(command)
 
                     if entity is None:
-                        clean = command.replace('@', '@ ')  # non breaking space
+                        clean = commands.clean_content().convert(command)  # non breaking space
                         return await ctx.send(
                             f'Command or category "{clean}" not found'
                         )
