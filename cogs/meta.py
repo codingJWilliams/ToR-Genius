@@ -3,6 +3,7 @@
 #
 # Licensed under the MIT License. https://opensource.org/licenses/MIT
 
+import asyncio
 # Help command from R. Danny, along with feedback, pm, and prefixes
 import inspect
 import os
@@ -191,7 +192,7 @@ class Meta:
     @prefix.command(
         name='remove', aliases=['delete', 'del', 'rm'], ignore_extra=False
     )
-    async def prefix_remove(self, ctx, prefix: Prefix):
+    async def prefix_remove(self, ctx, *, prefix: Prefix):
         """Removes a prefix from the list of custom prefixes
 
         You can use this to remove any custom or default prefix, it is the
@@ -204,9 +205,46 @@ class Meta:
         try:
             del prefixes[prefixes_only.index(prefix)]
         except ValueError:
-            await ctx.auto_react('🚫')
-            await ctx.send("That's not one of my prefixes, sorry!")
-            return
+            # Fallback to search
+            # noinspection PyUnresolvedReferences
+            possibles = [p for p in prefixes_only
+                         if prefix.lower() in p.lower()]
+
+            if len(possibles) > 1:
+                await ctx.send('Multiple prefixes like that found. Please '
+                               'say a **number** from the list below.')
+
+                await Pages(ctx, entries=possibles).paginate()
+
+                def check(message):
+                    return message.author == ctx.author \
+                           and message.content.isdigit() \
+                           and 0 < int(message.content) < len(possibles)
+
+                try:
+                    m = await self.bot.wait_for('message',
+                                                check=check,
+                                                timeout=60)
+
+                    del prefixes[prefixes_only[int(m.content) - 1]]
+                except asyncio.TimeoutError:
+                    return await ctx.send('Sorry, you took to long to answer.')
+            elif len(possibles) == 1:
+                # Only one prefix found
+                cleaned = await commands.clean_content().convert(ctx,
+                                                                 possibles[0])
+                res = await ctx.prompt(f'Did you mean `{cleaned}`?')
+
+                if res:
+                    del prefixes[prefixes_only.index(possibles[0])]
+                elif not res:
+                    return await ctx.send('Canceled.')
+                else:
+                    return await ctx.send('Timed out.')
+
+            else:
+                await ctx.auto_react('🚫')
+                return await ctx.send("That's not one of my prefixes, sorry!")
 
         try:
             await self.bot.set_guild_prefixes(ctx.guild, prefixes)
