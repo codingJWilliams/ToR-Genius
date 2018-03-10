@@ -87,7 +87,7 @@ class Fun:
         """Made for fastfinge with <3"""
         user = ctx.author if not user else user
         await ctx.send(
-            f'{user.name}\'s display name is {user.display_name}.'
+            f'{commands.clean_content(user.name)}\'s display name is {commands.clean_content(user.display_name)}.'
         )
 
     @commands.command()
@@ -118,7 +118,7 @@ class Fun:
         member = ctx.author if not member else member
         await ctx.send(
             f'<:tickYes:404815005423501313> **_'
-            f'{member.name}#{member.discriminator} has been warned._**'
+            f'{commands.clean_content(member.name)}#{member.discriminator} has been warned._**'
         )
 
     @commands.command(hidden=True)
