@@ -483,7 +483,7 @@ class Other:
                             )
                             return await ctx.send(
                                 '\n'.join(
-                                    f'**{r[0].display_name}:** {r[1]}'
+                                    f'**{commands.clean_content().convert(r[0].display_name)}:** {commands.clean_content().convert(r[1])}'
                                     for r in final_results
                                 )
                             )
