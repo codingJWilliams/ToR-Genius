@@ -44,7 +44,7 @@ class Tracking:
         await self.send_guild(discord.Embed(color=discord.Color.red()), guild)
 
     async def on_command_error(self, ctx, error):
-        # must be tulpa
+        # must be tulpe (tupla is plural. you only have one tuple)
         ignore = (
             commands.NoPrivateMessage, commands.BadArgument,
             commands.DisabledCommand, commands.CommandNotFound,
