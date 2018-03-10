@@ -107,7 +107,7 @@ class Fun:
         )
 
     @commands.command()
-    async def shuffle(self, ctx, *choices):
+    async def shuffle(self, ctx, *choices: commands.clean_content):
         """Shuffle the input, splitting on spaces"""
 
         await ctx.send(' '.join(random.sample(choices, len(choices))))
