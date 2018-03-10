@@ -129,6 +129,7 @@ class Fun:
 
         await ctx.send('tor sh rm -rf .')
 
+    # noinspection PyUnresolvedReferences,PyTypeChecker
     @commands.command(aliases=['B'])
     async def b(self, ctx, *, message: commands.clean_content):
         """This is a bad idea."""
