@@ -131,12 +131,12 @@ class Fun:
 
     # noinspection PyUnresolvedReferences,PyTypeChecker
     @commands.command(aliases=['B'])
-    async def b(self, ctx, *, message: commands.clean_content):
+    async def b(self, ctx, *, message):
         """This is a bad idea."""
-        if 'b' in message:
-            return await ctx.send(message.replace('b', ':b:'))
+        if 'b' in message.lower():
+            return await ctx.send(message.replace('b', ':b:').replace('B', ':b:'))
 
-        consonants = set([x for x in message if x not in "aeiou"])
+        consonants = set([x for x in message if x.lower() in "bcdfghjklmnpqrstvwxyz"])
         await ctx.send(message.replace(random.choice(tuple(consonants) if consonants else message), ':b:'))
 
     # noinspection SpellCheckingInspection
